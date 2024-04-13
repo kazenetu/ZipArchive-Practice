@@ -22,6 +22,13 @@ public class IndexModel : PageModel
 
     }
 
+    public IActionResult OnPost()
+    {
+      byte[] data = CreateZip();
+      string fileName = "test.zip";
+      return File(data, "application/octet-stream", fileName);
+    }
+
     /// <summary>
     /// Zipファイル作成
     /// </summary>
