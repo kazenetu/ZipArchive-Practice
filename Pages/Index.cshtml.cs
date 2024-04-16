@@ -35,17 +35,18 @@ public class IndexModel : PageModel
     /// <returns>バイト配列</returns>
     private byte[] CreateZip()
     {
-        using(MemoryStream memoryStream = new MemoryStream())
-        using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-        {
-            ZipArchiveEntry readmeEntry = archive.CreateEntry("Readme.txt");
-            using (StreamWriter writer = new StreamWriter(readmeEntry.Open()))
+        using(MemoryStream memoryStream = new MemoryStream()){
+            using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
             {
-                writer.WriteLine("Information about this package.");
-                writer.WriteLine("========================");
+                ZipArchiveEntry readmeEntry = archive.CreateEntry("Readme.txt");
+                using (StreamWriter writer = new StreamWriter(readmeEntry.Open()))
+                {
+                    writer.WriteLine("Information about this package.");
+                    writer.WriteLine("========================");
+                }
             }
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream.ToArray();
         }
-        memoryStream.Seek(0, SeekOrigin.Begin);
-        return memoryStream.ToArray();
     }
 }
